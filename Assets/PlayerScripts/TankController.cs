@@ -17,6 +17,7 @@ public class TankController : MonoBehaviour
 
     public GameObject recticle;
     public Transform playerGunTrans;
+    public Transform playerTrans;
     public GameObject gunBarell;
 
 
@@ -72,6 +73,12 @@ public class TankController : MonoBehaviour
 
             playerGunTrans.rotation = Quaternion.LookRotation(gunLookDir);
         }
+
+       
+            
+            
+            //.rotation.SetEulerRotation(0, 0, 0);
+            //Set(0, playerTrans.rotation.y, 0, playerTrans.rotation.w);
     }
 }
 

@@ -51,11 +51,11 @@ public class GunBehavior : MonoBehaviour
             bulletClone.gameObject.GetComponent<BulletBehavior>().damage = bulletDamage;
             //
             nextBulletTime = Time.time + bulletDelay;
-            Debug.Log("Take a shot");
+            //Debug.Log("Take a shot");
         }
         else
         {
-            Debug.Log("Bullet Cooldown");
+            //Debug.Log("Bullet Cooldown");
         }
     }
 

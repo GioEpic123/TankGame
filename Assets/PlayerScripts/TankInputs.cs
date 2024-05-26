@@ -45,6 +45,7 @@ public class TankInputs : MonoBehaviour
         Ray screenRay = camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if(Physics.Raycast(screenRay, out hit)){//If Raycast hits a collider, returns true and stores data into "hit"
+
             recticlePosition = hit.point;//Put Recticle at the position of the hit
             
             //Find a way to Debug.Log() the target object for bug fixing

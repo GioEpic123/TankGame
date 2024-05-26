@@ -9,6 +9,8 @@ public class iEnemy : MonoBehaviour, iDamagable<float>
     public float speed = 5;
     public float attackDamage = 25;
 
+    public Vector3 spawnLocation;// { get; set; } // To be set by Room when spawning object
+    public GameObject myRoom;//This objects room
 
     // Start is called before the first frame update
     void Start()
@@ -37,10 +39,15 @@ public class iEnemy : MonoBehaviour, iDamagable<float>
     void die()
     {
         Debug.Log("Enemy Died!");
-        Destroy(this.gameObject);//Should do this as last action when enemy has dissapeared
         //Drop items,
         //Perform death animation
-        //Destroy game object
+        myRoom.GetComponent<RoomObj>().removeActiveEnemy(gameObject); // - Remove from myRoom as active enemy
+     
+        
+        Destroy(this.gameObject);//Should do this as last action when enemy has dissapeared
+        
         
     }
+    
+
 }
