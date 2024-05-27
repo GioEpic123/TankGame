@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(TankInputs))]
+[RequireComponent(typeof(PlayerInputs))]
 
-public class TankController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Movement Properties")]
     public float tankSpeed;
@@ -13,12 +13,14 @@ public class TankController : MonoBehaviour
     public float gunRotationSpeed;
 
     private Rigidbody playerBody;
-    private TankInputs playerInput;
+    private PlayerInputs playerInput;
 
     public GameObject recticle;
     public Transform playerGunTrans;
     public Transform playerTrans;
     public GameObject gunBarell;
+
+    GunBehavior gunBehavior;
 
 
     
@@ -27,7 +29,19 @@ public class TankController : MonoBehaviour
     void Start()
     {
         playerBody = GetComponent<Rigidbody>();
-        playerInput = GetComponent<TankInputs>();
+        playerInput = GetComponent<PlayerInputs>();
+        
+        //TODO: Dynamic gun types won't work with this.
+        try
+        {
+            gunBehavior = transform.Find("TankGun").GetComponent<GunBehavior>();
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Can't find 'Tank Gun', did you rename it?");
+            throw;
+        }
+        
 
     }
 
@@ -38,20 +52,24 @@ public class TankController : MonoBehaviour
         }
     }
 
-    void handleMovement(){
+    void Update(){
+        if(playerInput){
+            handleShootingInput();
+        }
+    }
 
-        /*
-        //Dead Solution to barrier - might use later
-        if (!Physics.Raycast(transform.position, transform.forward, 2f) || !Physics.Raycast(transform.position, -transform.forward, 2f))
-        {
-            Vector3 nextPosition = transform.position + (transform.forward * playerInput.getForwardInput * tankSpeed * Time.deltaTime);
-            playerBody.MovePosition(nextPosition);
+    void handleShootingInput(){
+        //Tell our GunBehavior to shoot
+        if(playerInput.getFireInput){
+            gunBehavior.Fire();
         }
-        else
-        {
-            // hit a wall, do something else!
+
+        if(playerInput.getSecFireInput){
+            gunBehavior.Fire2();
         }
-        */
+    }
+
+    void handleMovement(){
 
         //Makes a position set to the position plus it's displacement(decided by input)
         Vector3 nextPosition = transform.position + (transform.forward * playerInput.getForwardInput * tankSpeed * Time.deltaTime);
@@ -73,12 +91,6 @@ public class TankController : MonoBehaviour
 
             playerGunTrans.rotation = Quaternion.LookRotation(gunLookDir);
         }
-
-       
-            
-            
-            //.rotation.SetEulerRotation(0, 0, 0);
-            //Set(0, playerTrans.rotation.y, 0, playerTrans.rotation.w);
     }
 }
 

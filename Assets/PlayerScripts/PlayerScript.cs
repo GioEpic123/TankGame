@@ -35,6 +35,7 @@ public class PlayerScript : MonoBehaviour, iDamagable<float>
             gameManager.GetComponent<GameManager>().gameOver();
     }
 
+    //TODO: Do we need this?
     public void setRoom(GameObject room)
     {
         if (currentRoom != room)

@@ -26,7 +26,7 @@ public class RoomObj : MonoBehaviour
         active,
         clear
     }
-    private roomState state;
+    private roomState state = roomState.idle;
     
     private Transform roomMiddle; //The center of the room, used for spawning
     private ArrayList doors = new ArrayList();//An array of doors to be set on room build, for use with locking & unlocking doors
@@ -50,7 +50,6 @@ public class RoomObj : MonoBehaviour
     {
         buildRoom();
         chooseEnemies();
-        state = roomState.idle;
         //Decide type of loot
 
     }
@@ -95,7 +94,7 @@ public class RoomObj : MonoBehaviour
     {
         //Decide which enemies to spawn, load them into enemies[];
         enemyBlueprint.Add(cratePref);
-        //Debug.Log("enemyBlue: " + enemyBlueprint);
+        //TODO- move this setup to enemies themselves 
         ((GameObject)enemyBlueprint[0]).GetComponent<iEnemy>().spawnLocation = roomMiddle.position;
         ((GameObject)enemyBlueprint[0]).GetComponent<iEnemy>().myRoom = this.gameObject;
     }
@@ -103,11 +102,12 @@ public class RoomObj : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.tag == "Player" && state == roomState.idle)
+        if(other.CompareTag("Player") && state == roomState.idle)
         {
             state = roomState.active;
             other.GetComponent<PlayerScript>().setRoom(this.gameObject);
             activateRoom();
+            Destroy(roomBoxColli);
         }
     }
 

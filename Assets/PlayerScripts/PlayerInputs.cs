@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TankInputs : MonoBehaviour
+public class PlayerInputs : MonoBehaviour
 {
     //Camera for use with Recticle movement
     public Camera camera;
@@ -27,6 +25,16 @@ public class TankInputs : MonoBehaviour
         get { return rotationInput; }
     }
 
+    private bool fireInput;
+    public bool getFireInput{
+        get { return fireInput; }
+    }
+
+    private bool secFireInput;
+    public bool getSecFireInput{
+        get { return secFireInput; }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -35,11 +43,13 @@ public class TankInputs : MonoBehaviour
         }
     }
 
+    //TODO: Remove (Gizmo for debugging)
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(recticlePosition, 0.5f);
     }
 
+    //TODO: Recticles climb walls, fix this
     protected virtual void handleInputs(){
 
         Ray screenRay = camera.ScreenPointToRay(Input.mousePosition);
@@ -47,14 +57,13 @@ public class TankInputs : MonoBehaviour
         if(Physics.Raycast(screenRay, out hit)){//If Raycast hits a collider, returns true and stores data into "hit"
 
             recticlePosition = hit.point;//Put Recticle at the position of the hit
-            
-            //Find a way to Debug.Log() the target object for bug fixing
-
             recticleNormal = hit.normal;//Point the rectacle at the normal of the hit (i.e. the direction of the surface)
             //Debug.Log(hit.collider.gameObject);
         }
         
         forwardInput = Input.GetAxis("Vertical");
         rotationInput = Input.GetAxis("Horizontal");
+        fireInput = Input.GetButtonDown("Fire1");
+        secFireInput = Input.GetButtonDown("Fire2");
     }
 }
