@@ -8,7 +8,13 @@ public class BulletBehavior : MonoBehaviour
 
     public float damage;
     private Rigidbody rb;
+
+    public Vector3 sourcePosition;
+    public bool playerBullet;
+
     private int bounces = 0;
+
+
 
     void Start()
     {
@@ -30,48 +36,55 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        //Pre-bounce, players can't shoot themselves
+        if (playerBullet && other.CompareTag("Player") && bounces == 0)
         {
-            var damagable = other.GetComponent<iDamagable<float>>();
-            if (damagable != null)
-            {
-                // If Damagable non-player
-                Debug.Log("Bullet Hit " + other.gameObject.name);
-                damagable.takeDamage(damage);
-                KillBullet();
-            }
-            else
-            {
-                // If Not
-                if (other.CompareTag("Ground"))
-                {
-                    // Bounce if Ground or Wall
-                    if (bounces < BOUNCE_MAX)
-                    {
-                        Debug.Log("Bounce! " + other.gameObject);
+            return;
+        }
 
-                        // Raycast to determine surface normal
-                        RaycastHit hit;
-                        if (Physics.Raycast(transform.position, rb.velocity.normalized, out hit))
-                        {
-                            Vector3 surfaceNormal = hit.normal;
-                            Vector3 reflectedVelocity = Vector3.Reflect(rb.velocity, surfaceNormal);
-                            rb.velocity = reflectedVelocity;
-                            bounces++;
-                        }
-                        else
-                        {
-                            // If raycast fails, destroy bullet
-                            Debug.Log("Raycast failed!");
-                            KillBullet();
-                        }
+        var damagable = other.GetComponent<iDamagable<float>>();
+        if (damagable != null)
+        {
+            // If Damagable non-player
+            Debug.Log("Bullet Hit " + other.gameObject.name);
+            damagable.takeDamage(damage);
+            KillBullet();
+        }
+        else
+        {
+            // If Not
+            if (other.CompareTag("Ground"))
+            {
+                // Bounce if Ground or Wall
+                if (bounces < BOUNCE_MAX)
+                {
+                    Debug.Log("Bounce! " + other.gameObject);
+
+                    // Raycast to determine surface normal
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, rb.velocity.normalized, out hit))
+                    {
+                        Vector3 surfaceNormal = hit.normal;
+                        Vector3 reflectedVelocity = Vector3.Reflect(rb.velocity, surfaceNormal);
+                        rb.velocity = reflectedVelocity;
+                        bounces++;
                     }
                     else
                     {
-                        Debug.Log("Bounced out! " + other.gameObject);
+                        // If raycast fails, destroy bullet
+                        Debug.Log("Raycast failed!");
                         KillBullet();
                     }
                 }
+                else
+                {
+                    Debug.Log("Bounced out! " + other.gameObject);
+                    KillBullet();
+                }
+            }
+            else
+            {
+                Debug.Log("Hit non-dmg, non Wall object:" + other.gameObject);
             }
         }
     }

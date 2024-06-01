@@ -1,34 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GunBehavior : MonoBehaviour
 {
+    public Transform GunBarrel;
+    public Vector3 gunPos;
+    private float nextShootTime = 0f;
+    public bool playerGun;
 
-    //TODO- Move logic to "StandardGun", make this an interface
-
-    
-
+    public Rigidbody bullet;
     public float bulletSpeed = 25;
     public float bulletDelay = 0.5f;      //Time between shots 
-    private float nextShootTime = 0f; 
+
 
     private float damagePerBullet = 10f; //will be affected by bullet type, as well as bullet delay & speed
 
 
-    public Rigidbody bullet;
-
-    public Transform GunBarrel;
-
 
     public void Fire()
     {
-        Debug.Log("Shooting!");
         if (nextShootTime <= Time.time)
         {
+            //Clone & send bullet
             Rigidbody bulletClone = Instantiate(bullet, GunBarrel.position, GunBarrel.rotation);
             bulletClone.velocity = GunBarrel.forward * bulletSpeed;
-            bulletClone.gameObject.GetComponent<BulletBehavior>().damage = damagePerBullet;
+            //Set Bullet's properties
+            BulletBehavior cloneScript = bulletClone.gameObject.GetComponent<BulletBehavior>();
+            cloneScript.damage = damagePerBullet;
+            cloneScript.playerBullet = playerGun;
+            cloneScript.sourcePosition = gunPos;
+            //Shoot delay
             nextShootTime = Time.time + bulletDelay;
         }
         else
@@ -37,7 +37,8 @@ public class GunBehavior : MonoBehaviour
         }
     }
 
-    public void Fire2(){
+    public void Fire2()
+    {
         Debug.Log("Alt-fire! Not yet configured :)");
     }
 

@@ -11,7 +11,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         initialTrans = this.transform;
-        player = FindObjectOfType<PlayerScript>().gameObject;
+        player = FindObjectOfType<Player>().gameObject;
     }
 
     // Update is called once per frame

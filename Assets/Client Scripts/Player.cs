@@ -1,27 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, iDamagable<float>
+public class Player : MonoBehaviour, iDamagable<float>
 {
+    //Damage indicator flashes for set time
+    public float DAMAGE_INDICATOR_TIME = 0.85f;
 
     //Player Script to handle HP, Inventory, Fire Mode, ETC
     public float health = 100f;
     public GameObject gameManager;
     public Transform playerTrans;
-    public GameObject currentRoom;
+
+    [SerializeField]
+    GameObject damageIndicator;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
         //Keeps the Player from flipping over and flying away
-        playerTrans.rotation.Set(0, playerTrans.rotation.y, 0,playerTrans.rotation.w);
+        playerTrans.rotation.Set(0, playerTrans.rotation.y, 0, playerTrans.rotation.w);
     }
 
     public void takeDamage(float damageTaken)
@@ -29,16 +32,18 @@ public class PlayerScript : MonoBehaviour, iDamagable<float>
         if (health > damageTaken)
         {
             health -= damageTaken;
-            //Update HUD health
-        }  
+            //Update HUD here
+            Debug.Log("Player health " + health);
+            damageIndicator.SetActive(true);
+            StartCoroutine(HideDamageIndicator());
+        }
         else
             gameManager.GetComponent<GameManager>().gameOver();
     }
 
-    //TODO: Do we need this?
-    public void setRoom(GameObject room)
+    IEnumerator HideDamageIndicator()
     {
-        if (currentRoom != room)
-            currentRoom = room;
+        yield return new WaitForSeconds(DAMAGE_INDICATOR_TIME);
+        damageIndicator.SetActive(false);
     }
 }

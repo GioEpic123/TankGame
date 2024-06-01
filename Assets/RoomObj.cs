@@ -21,21 +21,22 @@ public class RoomObj : MonoBehaviour
      3 - (IF) no more enemies, room clears, spawn loot
      */
 
-    enum roomState {
+    enum roomState
+    {
         idle,
         active,
         clear
     }
     private roomState state = roomState.idle;
-    
+
     private Transform roomMiddle; //The center of the room, used for spawning
     private ArrayList doors = new ArrayList();//An array of doors to be set on room build, for use with locking & unlocking doors
     private Collider roomBoxColli;
 
-    
+
     private ArrayList enemyBlueprint = new ArrayList(); // Blueprint for which objects to generate
     private ArrayList activeEnemies = new ArrayList();
- 
+
     public GameObject cratePref; // Prefab to work as an enemy for testing.
     public GameObject lootPref; // Loot prefab for testing, will be changed to a loot table late
 
@@ -58,9 +59,9 @@ public class RoomObj : MonoBehaviour
     void Update()
     {
         //Checks if Room is Clear
-        if(state == roomState.active)
+        if (state == roomState.active)
         {
-            if(activeEnemies.Count <= 0)
+            if (activeEnemies.Count <= 0)
             {
                 clearRoom();
             }
@@ -95,17 +96,15 @@ public class RoomObj : MonoBehaviour
         //Decide which enemies to spawn, load them into enemies[];
         enemyBlueprint.Add(cratePref);
         //TODO- move this setup to enemies themselves 
-        ((GameObject)enemyBlueprint[0]).GetComponent<iEnemy>().spawnLocation = roomMiddle.position;
-        ((GameObject)enemyBlueprint[0]).GetComponent<iEnemy>().myRoom = this.gameObject;
+        ((GameObject)enemyBlueprint[0]).GetComponent<Enemy>().myRoom = this.gameObject;
     }
 
     public void OnTriggerEnter(Collider other)
     {
 
-        if(other.CompareTag("Player") && state == roomState.idle)
+        if (other.CompareTag("Player") && state == roomState.idle)
         {
             state = roomState.active;
-            other.GetComponent<PlayerScript>().setRoom(this.gameObject);
             activateRoom();
             Destroy(roomBoxColli);
         }
@@ -114,17 +113,17 @@ public class RoomObj : MonoBehaviour
     public void activateRoom()
     {
         Debug.Log("Room Start!");
-        
-        foreach(GameObject go in enemyBlueprint)
+
+        foreach (GameObject go in enemyBlueprint)
         {
 
             GameObject temp = Instantiate(go);
             activeEnemies.Add(temp);
             Debug.Log("Enemy Count: " + activeEnemies.Count);
             temp.transform.position = roomMiddle.position;
-            temp.GetComponent<iEnemy>().myRoom = this.gameObject;
+            temp.GetComponent<Enemy>().myRoom = this.gameObject;
         }
-        
+
         foreach (GameObject door in doors)
         {
             door.SetActive(true);
@@ -157,5 +156,5 @@ public class RoomObj : MonoBehaviour
         }
     }
 
-    
+
 }
