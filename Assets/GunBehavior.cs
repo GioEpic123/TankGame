@@ -3,9 +3,8 @@
 public class GunBehavior : MonoBehaviour
 {
     public Transform GunBarrel;
-    public Vector3 gunPos;
+    public GameObject gunUser;
     private float nextShootTime = 0f;
-    public bool playerGun;
 
     public Rigidbody bullet;
     public float bulletSpeed = 25;
@@ -26,8 +25,7 @@ public class GunBehavior : MonoBehaviour
             //Set Bullet's properties
             BulletBehavior cloneScript = bulletClone.gameObject.GetComponent<BulletBehavior>();
             cloneScript.damage = damagePerBullet;
-            cloneScript.playerBullet = playerGun;
-            cloneScript.sourcePosition = gunPos;
+            cloneScript.bulletSource = gunUser;
             //Shoot delay
             nextShootTime = Time.time + bulletDelay;
         }

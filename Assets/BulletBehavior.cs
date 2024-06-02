@@ -9,8 +9,7 @@ public class BulletBehavior : MonoBehaviour
     public float damage;
     private Rigidbody rb;
 
-    public Vector3 sourcePosition;
-    public bool playerBullet;
+    public GameObject bulletSource;
 
     private int bounces = 0;
 
@@ -36,8 +35,9 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Pre-bounce, players can't shoot themselves
-        if (playerBullet && other.CompareTag("Player") && bounces == 0)
+
+        //Prevent consuming bullet on exit (& non-ricochet friendly fire)
+        if (bulletSource && other.CompareTag(bulletSource.tag) && bounces == 0)
         {
             return;
         }
@@ -45,7 +45,7 @@ public class BulletBehavior : MonoBehaviour
         var damagable = other.GetComponent<iDamagable<float>>();
         if (damagable != null)
         {
-            // If Damagable non-player
+            // If Damagable & not from source
             Debug.Log("Bullet Hit " + other.gameObject.name);
             damagable.takeDamage(damage);
             KillBullet();

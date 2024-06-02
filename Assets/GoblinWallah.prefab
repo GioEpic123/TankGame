@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8642666092518588408}
   - component: {fileID: 828925685231045928}
   - component: {fileID: 2683226469660121826}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 5592841849420321327}
   - component: {fileID: 6972919972351885454}
   - component: {fileID: 7808266063251098963}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 5928762816843190567}
   - component: {fileID: 3409364689314077498}
   - component: {fileID: 8929880137062947423}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 90775222704128421}
   - component: {fileID: 5699829657911671433}
   - component: {fileID: 7684210557514717906}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6975384361078107636}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ears
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,9 +468,9 @@ GameObject:
   - component: {fileID: 5630014885590140155}
   - component: {fileID: 4724890418472121911}
   - component: {fileID: 8746682557205642125}
-  m_Layer: 0
-  m_Name: Enemy
-  m_TagString: Untagged
+  m_Layer: 2
+  m_Name: GoblinWallah
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -545,11 +545,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5, y: 1.5, z: 1.5}
+  m_Size: {x: 1.5, y: 2, z: 1.5}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8746682557205642125
 MonoBehaviour:
@@ -576,7 +576,7 @@ GameObject:
   - component: {fileID: 64219058398162973}
   - component: {fileID: 6257376195083583660}
   - component: {fileID: 3748006374242429045}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,9 +679,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7466508663680847360}
   - component: {fileID: 8728968825712596081}
-  m_Layer: 0
+  - component: {fileID: 8844637515348700816}
+  m_Layer: 2
   m_Name: Hurtbox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -720,8 +721,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.3, z: 1.6}
-  m_Center: {x: 0, y: 0, z: 0.3}
+  m_Size: {x: 1, y: 0.5208435, z: 1.4951134}
+  m_Center: {x: 0, y: -0.23957881, z: 0.24755573}
+--- !u!114 &8844637515348700816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427485850255812874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08044020e39fb0d418ab92f2f4c3b136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8317527252495886987
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,7 +747,7 @@ GameObject:
   - component: {fileID: 6543744989162128646}
   - component: {fileID: 6305209768049029811}
   - component: {fileID: 8107387181365111500}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

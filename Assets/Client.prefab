@@ -576,8 +576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunBarrel: {fileID: 2676683800350864212}
-  gunPos: {x: 0, y: 0, z: 0}
-  playerGun: 1
+  gunUser: {fileID: 5459367733800803782}
   bullet: {fileID: 4974230858982087180, guid: c1095156a7ef7214d8146bcb21816d39, type: 3}
   bulletSpeed: 15
   bulletDelay: 0.5
