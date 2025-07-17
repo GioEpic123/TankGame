@@ -1,24 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    private Transform initialTrans;
     private GameObject player;
 
-    // Start is called before the first frame update
+    // Takes the initial position of the camera,
+    // Then applies it to player's position as offset
+    // Gives a nice no-frills follow effect
+    public Vector3 offset;
+
     void Start()
     {
-        initialTrans = this.transform;
+        offset = this.transform.localPosition;
         player = FindObjectOfType<Player>().gameObject;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        //Debug.Log(player.transform.position);
-        transform.position = player.transform.position + new Vector3(25, 25, -25);
+        transform.position = player.transform.position + offset;
 
     }
 }
