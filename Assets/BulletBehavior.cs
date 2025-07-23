@@ -4,93 +4,88 @@ using UnityEngine;
 public class BulletBehavior : MonoBehaviour
 {
     public float BULLET_TIME = 3f;
-    public int BOUNCE_MAX = 3;
+    public int BOUNCE_MAX = 5;
 
     public float damage;
-    private Rigidbody rb;
-
     public GameObject bulletSource;
 
+    private Rigidbody rb;
+    private Vector3 lastVelocity;
     private int bounces = 0;
-
-
 
     void Start()
     {
+        // Make bullets bounce smoothly
         rb = GetComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        rb.useGravity = false;
+        rb.drag = 0f;
+        rb.angularDrag = 0f;
+        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+
         StartCoroutine(BulletTimeOut());
+        // Visualize
+        Debug.DrawRay(transform.position, rb.velocity, Color.red, 0.2f);
+
     }
 
     void FixedUpdate()
     {
-        // Keeps all bullets at the same height regardless of non-damaging collisions (makes for fun bullet physics)
-        transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
+        lastVelocity = rb.velocity;
     }
 
     IEnumerator BulletTimeOut()
     {
         yield return new WaitForSeconds(BULLET_TIME);
+        Debug.Log("Bullet Killed!");
         KillBullet();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
+        if (bulletSource && collision.gameObject.CompareTag(bulletSource.tag) && bounces == 0)
+            return;
 
-        //Prevent consuming bullet on exit (& non-ricochet friendly fire)
-        if (bulletSource && other.CompareTag(bulletSource.tag) && bounces == 0)
+        var damagable = collision.gameObject.GetComponent<iDamagable<float>>();
+        if (damagable != null)
         {
+            Debug.Log("Bullet Hit " + collision.gameObject.name);
+            damagable.takeDamage(damage);
+            KillBullet();
             return;
         }
 
-        var damagable = other.GetComponent<iDamagable<float>>();
-        if (damagable != null)
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            // If Damagable & not from source
-            Debug.Log("Bullet Hit " + other.gameObject.name);
-            damagable.takeDamage(damage);
-            KillBullet();
-        }
-        else
-        {
-            // If Not
-            if (other.CompareTag("Ground"))
+            if (bounces < BOUNCE_MAX)
             {
-                // Bounce if Ground or Wall
-                if (bounces < BOUNCE_MAX)
-                {
-                    Debug.Log("Bounce! " + other.gameObject);
-
-                    // Raycast to determine surface normal
-                    RaycastHit hit;
-                    if (Physics.Raycast(transform.position, rb.velocity.normalized, out hit))
-                    {
-                        Vector3 surfaceNormal = hit.normal;
-                        Vector3 reflectedVelocity = Vector3.Reflect(rb.velocity, surfaceNormal);
-                        rb.velocity = reflectedVelocity;
-                        bounces++;
-                    }
-                    else
-                    {
-                        // If raycast fails, destroy bullet
-                        Debug.Log("Raycast failed!");
-                        KillBullet();
-                    }
-                }
-                else
-                {
-                    Debug.Log("Bounced out! " + other.gameObject);
-                    KillBullet();
-                }
+                Bounce(collision);
             }
             else
             {
-                Debug.Log("Hit non-dmg, non Wall object:" + other.gameObject);
+                Debug.Log("Bounced out! " + collision.gameObject);
+                KillBullet();
             }
         }
+        else
+        {
+            Debug.Log("Hit non-damaging object: " + collision.gameObject);
+        }
+    }
+
+    void Bounce(Collision collision)
+    {
+        Debug.Log("Bounce! " + collision.gameObject);
+        ContactPoint contact = collision.contacts[0];
+        Vector3 reflectedVelocity = Vector3.Reflect(lastVelocity, contact.normal).normalized * lastVelocity.magnitude;
+        reflectedVelocity.y = 0f; // Force flat bounce
+        rb.velocity = reflectedVelocity;
+        bounces++;
     }
 
     void KillBullet()
     {
+        // TODO: Object pooling
         Destroy(gameObject);
     }
 }

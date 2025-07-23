@@ -672,6 +672,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunBarrel: {fileID: 7049847696015602982}
   gunUser: {fileID: 377226427459625212}
+  bulletPrefab: {fileID: 4662209637262181867, guid: a59be70f0af7d624e935000c762e0b05,
+    type: 3}
   bullet: {fileID: 4974230858982087180, guid: 59532bce3519ddf4897ef8fa998265eb, type: 3}
   bulletSpeed: 25
   bulletDelay: 0.5

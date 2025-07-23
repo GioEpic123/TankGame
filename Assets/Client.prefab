@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2123310298887541383
 Transform:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2628924191346764119}
   m_Layer: 0
-  m_Name: TankBody
+  m_Name: Wheels
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,13 +223,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2438928429407075904}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28585455, y: -0.44951552, z: 0.06499026, w: 0.84380054}
-  m_LocalPosition: {x: 29.64, y: 46.14, z: -29.64}
+  m_LocalRotation: {x: 0.4071369, y: 0.23644105, z: -0.11339884, w: 0.87491477}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6470918732077947918}
-  m_LocalEulerAnglesHint: {x: 32.741, y: -59.061, z: -10.087}
+  m_LocalEulerAnglesHint: {x: 50, y: 30, z: -0.526}
 --- !u!108 &2339215059397443331
 Light:
   m_ObjectHideFlags: 0
@@ -248,13 +248,13 @@ Light:
   m_InnerSpotAngle: 21.802082
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.06
+    m_Bias: 0
     m_NormalBias: 0
-    m_NearPlane: 0.2
+    m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -307,7 +307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5455879097552924537
 Transform:
   m_ObjectHideFlags: 0
@@ -472,6 +472,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 4032131158609592072}
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2491964240284839310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,7 +543,7 @@ GameObject:
   - component: {fileID: 3839259917329211268}
   - component: {fileID: 3856746974743915063}
   m_Layer: 0
-  m_Name: TankGun
+  m_Name: Gun
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -577,8 +580,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunBarrel: {fileID: 2676683800350864212}
   gunUser: {fileID: 5459367733800803782}
-  bullet: {fileID: 4974230858982087180, guid: c1095156a7ef7214d8146bcb21816d39, type: 3}
-  bulletSpeed: 15
+  bulletPrefab: {fileID: 4662209637262181867, guid: 95d8a80ec067f8a4281c7091056c42a0,
+    type: 3}
+  bulletSpeed: 25
   bulletDelay: 0.5
 --- !u!1 &7125018855664304329
 GameObject:
@@ -652,7 +656,7 @@ Transform:
   m_GameObject: {fileID: 7946771840164750193}
   serializedVersion: 2
   m_LocalRotation: {x: 0.23911765, y: -0.3696438, z: 0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: 44.2, y: 38.3, z: -44.2}
+  m_LocalPosition: {x: 45, y: 45, z: -45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -691,8 +695,8 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
-  orthographic: 1
+  field of view: 30
+  orthographic: 0
   orthographic size: 20
   m_Depth: 2
   m_CullingMask:
@@ -729,6 +733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7361fdc1c95c8354cac681ebc09de64c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: {x: 50, y: 50, z: -50}
 --- !u!1 &8033801121732600896
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +912,7 @@ GameObject:
   - component: {fileID: 8378880584606163494}
   - component: {fileID: 7683214793962574798}
   m_Layer: 0
-  m_Name: Aim Recticle (1)
+  m_Name: graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

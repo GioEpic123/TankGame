@@ -23,53 +23,60 @@ public class PlayerController : MonoBehaviour
     GunBehavior gunBehavior;
 
 
-    
+
 
     // Start is called before the first frame update
     void Start()
     {
         playerBody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInputs>();
-        
-        //TODO: Dynamic gun types won't work with this.
-        try
-        {
-            gunBehavior = transform.Find("TankGun").GetComponent<GunBehavior>();
-        }
-        catch (System.Exception)
-        {
-            Debug.Log("Can't find 'Tank Gun', did you rename it?");
-            throw;
-        }
-        
 
+        // //TODO: Dynamic gun types won't work with this.
+        // try
+        // {
+        //     gunBehavior = transform.Find("TankGun").GetComponent<GunBehavior>();
+        // }
+        // catch (System.Exception)
+        // {
+        //     Debug.Log("Can't find 'Tank Gun', did you rename it?");
+        //     throw;
+        // }
+
+        gunBehavior = transform.GetChild(0).GetComponent<GunBehavior>();
     }
 
     void FixedUpdate()//To be used rather than update when altering RigidBody
     {
-        if(playerBody && playerInput){
+        if (playerBody && playerInput)
+        {
             handleMovement();
         }
     }
 
-    void Update(){
-        if(playerInput){
+    void Update()
+    {
+        if (playerInput)
+        {
             handleShootingInput();
         }
     }
 
-    void handleShootingInput(){
+    void handleShootingInput()
+    {
         //Tell our GunBehavior to shoot
-        if(playerInput.getFireInput){
+        if (playerInput.getFireInput)
+        {
             gunBehavior.Fire();
         }
 
-        if(playerInput.getSecFireInput){
+        if (playerInput.getSecFireInput)
+        {
             gunBehavior.Fire2();
         }
     }
 
-    void handleMovement(){
+    void handleMovement()
+    {
 
         //Makes a position set to the position plus it's displacement(decided by input)
         Vector3 nextPosition = transform.position + (transform.forward * playerInput.getForwardInput * tankSpeed * Time.deltaTime);
@@ -81,11 +88,12 @@ public class PlayerController : MonoBehaviour
 
         //Place the recticle
         recticle.transform.position = playerInput.getRecticlePosition;
-            //--For Recticle rotation, save if we want recticle on walls or something--//
-            // recticle.transform.rotation = Quaternion.Euler(recticle.transform.rotation.eulerAngles.x, playerInput.getRecticleNormal.y, transform.rotation.eulerAngles.z);
-        
+        //--For Recticle rotation, save if we want recticle on walls or something--//
+        // recticle.transform.rotation = Quaternion.Euler(recticle.transform.rotation.eulerAngles.x, playerInput.getRecticleNormal.y, transform.rotation.eulerAngles.z);
+
         //Rotate the Gun
-        if(playerGunTrans){
+        if (playerGunTrans)
+        {
             Vector3 gunLookDir = playerInput.getRecticlePosition - playerGunTrans.position;
             gunLookDir.y = 0f;
 

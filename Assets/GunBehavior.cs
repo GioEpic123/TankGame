@@ -6,14 +6,19 @@ public class GunBehavior : MonoBehaviour
     public GameObject gunUser;
     private float nextShootTime = 0f;
 
-    public Rigidbody bullet;
+    public GameObject bulletPrefab;
+
     public float bulletSpeed = 25;
     public float bulletDelay = 0.5f;      //Time between shots 
 
+    Rigidbody bullet;
 
     private float damagePerBullet = 10f; //will be affected by bullet type, as well as bullet delay & speed
 
-
+    public void Start()
+    {
+        bullet = bulletPrefab.transform.GetChild(0).GetComponent<Rigidbody>();
+    }
 
     public void Fire()
     {
